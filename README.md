@@ -1,24 +1,53 @@
-# README
+# Once Minji
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A Rails application with a **Retro OS (Win95/98)** UI theme built on TailwindCSS v4 + DaisyUI v5.
 
-Things you may want to cover:
+---
 
-* Ruby version
+## ⚠️ CSS — After Every Edit
 
-* System dependencies
+The CSS source lives in:
 
-* Configuration
+```
+app/assets/tailwind/application.css
+```
 
-* Database creation
+TailwindCSS does **not** auto-compile in production or when running `bin/rails server` alone.
+After editing any CSS you **must** rebuild manually:
 
-* Database initialization
+```bash
+bin/rails tailwindcss:build
+```
 
-* How to run the test suite
+The compiled output is written to `app/assets/builds/tailwind.css` and served by the asset pipeline.
 
-* Services (job queues, cache servers, search engines, etc.)
+### Watch mode (auto-rebuild during development)
 
-* Deployment instructions
+Use the full dev process manager so Tailwind rebuilds on every save:
 
-* ...
+```bash
+bin/dev
+```
+
+This runs both the Rails server and `tailwindcss:watch` together via `Procfile.dev`.
+
+---
+
+## Getting Started
+
+* Ruby version — see `.ruby-version`
+* Database: `bin/rails db:create db:migrate db:seed`
+* Start dev server: `bin/dev`
+
+## Running Tests
+
+```bash
+bin/rails test
+```
+
+## Deployment
+
+```bash
+bin/rails tailwindcss:build   # compile CSS before deploying
+bin/rails assets:precompile
+```
