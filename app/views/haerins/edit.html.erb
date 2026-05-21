@@ -1,0 +1,14 @@
+<% content_for :title, "Editing Haerin" %>
+
+<div class="max-w-2xl mx-auto">
+  <div class="card bg-base-100 shadow-md">
+    <div class="card-body">
+      <h1 class="card-title text-2xl mb-4">Editing Haerin</h1>
+      <%= render "form", haerin: @haerin %>
+      <div class="flex gap-2 mt-4">
+        <%= link_to "Show", @haerin, class: "btn btn-ghost btn-sm" %>
+        <%= link_to "Back to Haerins", haerins_path, class: "btn btn-ghost btn-sm" %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<% content_for :title, "Showing Haerin" %>
+
+<div class="max-w-2xl mx-auto space-y-6">
+  <% if notice.present? %>
+    <div role="alert" class="alert alert-success">
+      <span><%= notice %></span>
+    </div>
+  <% end %>
+
+  <div class="card bg-base-100 shadow-md">
+    <% if @haerin.image.attached? %>
+      <figure>
+        <%= image_tag @haerin.image, class: "w-full max-h-80 object-cover" %>
+      </figure>
+    <% end %>
+    <div class="card-body">
+      <h1 class="card-title text-2xl"><%= @haerin.title %></h1>
+      <p class="text-base-content/80 whitespace-pre-wrap"><%= @haerin.description %></p>
+      <div class="card-actions justify-start mt-4 flex-wrap gap-2">
+        <%= link_to "Edit", edit_haerin_path(@haerin), class: "btn btn-outline" %>
+        <%= link_to "Back to Haerins", haerins_path, class: "btn btn-ghost" %>
+        <%= button_to "Delete", @haerin, method: :delete, class: "btn btn-error", data: { turbo_confirm: "Are you sure?" } %>
+      </div>
+    </div>
+  </div>
+</div>

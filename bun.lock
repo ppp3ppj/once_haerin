@@ -1,0 +1,14 @@
+{
+  "lockfileVersion": 1,
+  "configVersion": 1,
+  "workspaces": {
+    "": {
+      "dependencies": {
+        "daisyui": "^5.5.20",
+      },
+    },
+  },
+  "packages": {
+    "daisyui": ["daisyui@5.5.20", "", {}, "sha512-HemJcjl0Gk9rQ8BcgofN6p+EURrqftQG9wK1Hkxs98i49xe68+QxpNvry+PyxwkIUgrbMpNmZ5ZWjmtffAjfhQ=="],
+  }
+}

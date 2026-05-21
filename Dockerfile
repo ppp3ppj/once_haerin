@@ -30,10 +30,14 @@ ENV RAILS_ENV="production" \
 # Throw-away build stage to reduce size of final image
 FROM base AS build
 
-# Install packages needed to build gems
+# Install packages needed to build gems and Bun
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libvips libyaml-dev pkg-config && \
+    apt-get install --no-install-recommends -y build-essential git libvips libyaml-dev pkg-config unzip && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# Install Bun
+RUN curl -fsSL https://bun.sh/install | bash
+ENV PATH="/root/.bun/bin:$PATH"
 
 # Install application gems
 COPY vendor/* ./vendor/
@@ -46,6 +50,9 @@ RUN bundle install && \
 
 # Copy application code
 COPY . .
+
+# Install JS dependencies (DaisyUI for Tailwind plugin)
+RUN bun install --frozen-lockfile
 
 # Precompile bootsnap code for faster boot times.
 # -j 1 disable parallel compilation to avoid a QEMU bug: https://github.com/rails/bootsnap/issues/495

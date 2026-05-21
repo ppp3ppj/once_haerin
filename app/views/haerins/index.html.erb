@@ -1,0 +1,30 @@
+<% content_for :title, "Haerins" %>
+
+<div class="space-y-6">
+  <% if notice.present? %>
+    <div role="alert" class="alert alert-success">
+      <span><%= notice %></span>
+    </div>
+  <% end %>
+
+  <div class="flex justify-between items-center">
+    <h1 class="text-3xl font-bold">Haerins</h1>
+    <%= link_to "+ New Haerin", new_haerin_path, class: "btn btn-primary" %>
+  </div>
+
+  <div id="haerins" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <% if @haerins.any? %>
+      <% @haerins.each do |haerin| %>
+        <%= render haerin %>
+      <% end %>
+    <% else %>
+      <div class="col-span-3">
+        <div class="hero min-h-40">
+          <div class="hero-content text-center">
+            <p class="text-base-content/50 text-lg">No haerins yet. Create the first one!</p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
