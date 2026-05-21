@@ -1,16 +1,39 @@
-<div id="<%= dom_id haerin %>" class="card bg-base-100 shadow-md hover:shadow-xl transition-shadow">
-  <% if haerin.image.attached? %>
-    <figure>
-      <%= image_tag haerin.image, class: "w-full h-48 object-cover" %>
-    </figure>
-  <% end %>
-  <div class="card-body">
-    <h2 class="card-title"><%= haerin.title %></h2>
-    <p class="text-base-content/70 text-sm line-clamp-3"><%= haerin.description %></p>
-    <div class="card-actions justify-end mt-2">
-      <%= link_to "Show", haerin, class: "btn btn-sm btn-ghost" %>
-      <%= link_to "Edit", edit_haerin_path(haerin), class: "btn btn-sm btn-outline" %>
-      <%= button_to "Delete", haerin, method: :delete, class: "btn btn-sm btn-error btn-outline", data: { turbo_confirm: "Are you sure?" } %>
-    </div>
+<div id="<%= dom_id haerin %>" class="win-listview-row">
+  <%# Icon %>
+  <div style="width:32px; text-align:center; flex-shrink:0; font-size:16px;">
+    <% if haerin.image.attached? %>🖼<% else %>📄<% end %>
+  </div>
+
+  <%# Name %>
+  <div class="win-listview-cell" style="flex:1;">
+    <%= link_to haerin.title, haerin, style: "color: inherit; text-decoration: none; font-weight: bold;" %>
+  </div>
+
+  <%# Description %>
+  <div class="win-listview-cell" style="width:220px; color:#444;">
+    <%= haerin.description&.truncate(40) || "—" %>
+  </div>
+
+  <%# Modified date %>
+  <div class="win-listview-cell" style="width:90px; color:#666;">
+    <%= haerin.updated_at.strftime("%m/%d/%Y") %>
+  </div>
+
+  <%# Image badge %>
+  <div class="win-listview-cell" style="width:80px;">
+    <% if haerin.image.attached? %>
+      <span style="color:#008000; font-size:10px;">✔ Yes</span>
+    <% else %>
+      <span style="color:#808080; font-size:10px;">—</span>
+    <% end %>
+  </div>
+
+  <%# Actions — visible on row hover %>
+  <div class="win-row-actions" style="width:130px; display:flex; gap:2px; flex-shrink:0;">
+    <%= link_to "Open",   haerin,                  class: "win-btn win-btn-sm" %>
+    <%= link_to "Edit",   edit_haerin_path(haerin), class: "win-btn win-btn-sm" %>
+    <%= button_to "Del", haerin, method: :delete,
+          class: "win-btn win-btn-sm win-btn-danger",
+          data: { turbo_confirm: "Delete '#{haerin.title}'?" } %>
   </div>
 </div>

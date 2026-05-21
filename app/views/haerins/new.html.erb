@@ -1,13 +1,25 @@
-<% content_for :title, "New Haerin" %>
+<% content_for :title,   "New Haerin" %>
+<% content_for :address, "C:\\Once Minji\\Haerins\\New" %>
+<% content_for :status,  "Create a new Haerin document" %>
 
-<div class="max-w-2xl mx-auto">
-  <div class="card bg-base-100 shadow-md">
-    <div class="card-body">
-      <h1 class="card-title text-2xl mb-4">New Haerin</h1>
-      <%= render "form", haerin: @haerin %>
-      <div class="mt-4">
-        <%= link_to "Back to Haerins", haerins_path, class: "btn btn-ghost btn-sm" %>
-      </div>
+<div style="max-width: 520px; margin: 0 auto;">
+  <div class="win-window" style="margin: 4px;">
+
+    <div class="win-titlebar">
+      <span style="font-size:14px;">📄</span>
+      <span class="win-titlebar-title">New Haerin</span>
+      <span class="win-ctrl">_</span>
+      <span class="win-ctrl">□</span>
+      <%= link_to "✕", haerins_path, class: "win-ctrl", style: "font-weight:bold;" %>
     </div>
+
+    <div style="padding: 12px 14px 8px; background: #c0c0c0;">
+      <%= render "form", haerin: @haerin %>
+    </div>
+
+    <div style="display:flex; justify-content:flex-start; gap:4px; padding:4px 8px 8px; background:#c0c0c0; border-top:1px solid #808080;">
+      <%= link_to "Cancel", haerins_path, class: "win-btn" %>
+    </div>
+
   </div>
 </div>

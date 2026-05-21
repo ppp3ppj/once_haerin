@@ -1,30 +1,40 @@
-<% content_for :title, "Haerins" %>
+<% content_for :title,        "Haerins" %>
+<% content_for :address,       "C:\\Once Minji\\Haerins" %>
+<% content_for :status,        "#{@haerins.count} object(s) in folder" %>
+<% content_for :status_right,  "#{@haerins.select { |h| h.image.attached? }.count} with image" %>
 
-<div class="space-y-6">
-  <% if notice.present? %>
-    <div role="alert" class="alert alert-success">
-      <span><%= notice %></span>
-    </div>
-  <% end %>
+<%# ── Toolbar (extra actions for this view) ── %>
+<div class="win-toolbar" style="border-top: 1px solid #fff;">
+  <%= link_to "✚ New Haerin", new_haerin_path, class: "win-btn win-btn-sm win-btn-primary" %>
+  <div class="win-toolbar-sep"></div>
+  <span style="font-size: 11px; color: #808080;">View:</span>
+  <span class="win-btn win-btn-sm win-btn-active" title="Details">☰</span>
+</div>
 
-  <div class="flex justify-between items-center">
-    <h1 class="text-3xl font-bold">Haerins</h1>
-    <%= link_to "+ New Haerin", new_haerin_path, class: "btn btn-primary" %>
+<%# ── File list ── %>
+<div class="win-listview">
+
+  <%# Column headers %>
+  <div class="win-listview-header">
+    <div class="win-listview-col" style="width:32px;"> </div>
+    <div class="win-listview-col" style="flex:1;">Name</div>
+    <div class="win-listview-col" style="width:220px;">Description</div>
+    <div class="win-listview-col" style="width:90px;">Modified</div>
+    <div class="win-listview-col" style="width:80px;">Image</div>
+    <div class="win-listview-col" style="width:130px; border-right: none;">Actions</div>
   </div>
 
-  <div id="haerins" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <%# Rows %>
+  <div id="haerins">
     <% if @haerins.any? %>
       <% @haerins.each do |haerin| %>
         <%= render haerin %>
       <% end %>
     <% else %>
-      <div class="col-span-3">
-        <div class="hero min-h-40">
-          <div class="hero-content text-center">
-            <p class="text-base-content/50 text-lg">No haerins yet. Create the first one!</p>
-          </div>
-        </div>
+      <div style="display:flex; align-items:center; justify-content:center; padding: 40px; color: #808080; font-size:11px;">
+        This folder is empty.
       </div>
     <% end %>
   </div>
+
 </div>

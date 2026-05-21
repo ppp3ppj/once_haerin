@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Once Minji" %></title>
+    <title><%= yield(:title) || "Once Minji" %> — Once Minji</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Once Minji">
@@ -11,31 +11,172 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%# Pixel / retro font for title bars %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body data-theme="cupcake">
-    <div class="navbar bg-base-100 shadow-sm px-4 sticky top-0 z-50">
-      <div class="flex-1">
-        <%= link_to "✨ Once Minji", root_path, class: "btn btn-ghost text-xl" %>
-      </div>
-      <div class="flex-none">
-        <%= link_to "Haerins", haerins_path, class: "btn btn-ghost btn-sm" %>
-        <%= link_to "+ New", new_haerin_path, class: "btn btn-primary btn-sm" %>
-      </div>
-    </div>
+  <%# ── Desktop body ── %>
+  <body data-theme="retro-os" style="padding-bottom: 28px;">
 
-    <main class="container mx-auto mt-8 px-5 pb-10">
-      <%= yield %>
-    </main>
+    <%# ── Desktop area ── %>
+    <div style="min-height: calc(100vh - 28px); padding: 12px 12px 6px; display: flex; align-items: flex-start; justify-content: center;">
+
+      <%# ── Main Application Window ── %>
+      <div class="win-window" style="width: 100%; max-width: 980px; display: flex; flex-direction: column;">
+
+        <%# ── Title bar ── %>
+        <div class="win-titlebar">
+          <span style="font-size: 14px; flex-shrink: 0;">🖥</span>
+          <span class="win-titlebar-title"><%= yield(:title) || "Once Minji" %></span>
+          <span class="win-ctrl">_</span>
+          <span class="win-ctrl">□</span>
+          <%= link_to "✕", root_path, class: "win-ctrl", style: "font-weight: bold;" %>
+        </div>
+
+        <%# ── Menu bar ── %>
+        <div class="win-menubar">
+          <%= link_to "File",   haerins_path,     class: "win-menu-item" %>
+          <%= link_to "New",    new_haerin_path,  class: "win-menu-item" %>
+          <span class="win-menu-item" style="color:#808080; cursor: default;">View</span>
+          <span class="win-menu-item" style="color:#808080; cursor: default;">Help</span>
+        </div>
+
+        <%# ── Toolbar ── %>
+        <div class="win-toolbar">
+          <%= link_to "◀ Back",        "javascript:history.back()",   class: "win-btn win-btn-sm" %>
+          <div class="win-toolbar-sep"></div>
+          <%= link_to "📁 Haerins",    haerins_path,                  class: "win-btn win-btn-sm" %>
+          <%= link_to "✚ New",         new_haerin_path,               class: "win-btn win-btn-sm" %>
+        </div>
+
+        <%# ── Address bar ── %>
+        <div class="win-addressbar">
+          <span style="color:#808080;">Address</span>
+          <div style="flex: 1; padding: 1px 4px; background: #fff; font-size: 11px;
+                      box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #fff;">
+            📁&nbsp;<%= yield(:address) || request.path %>
+          </div>
+          <span class="win-btn win-btn-sm" style="min-width: 40px;">Go</span>
+        </div>
+
+        <%# ── Flash notices ── %>
+        <% if notice.present? %>
+          <div class="win-alert win-alert-success" style="margin: 4px 4px 0;">
+            <span style="font-size:16px;">ℹ️</span>
+            <span><%= notice %></span>
+          </div>
+        <% end %>
+        <% if alert.present? %>
+          <div class="win-alert win-alert-error" style="margin: 4px 4px 0;">
+            <span style="font-size:16px;">⚠️</span>
+            <span><%= alert %></span>
+          </div>
+        <% end %>
+
+        <%# ── Page content ── %>
+        <div class="win-content" style="flex: 1; overflow-y: auto; max-height: calc(100vh - 168px); min-height: 300px;">
+          <%= yield %>
+        </div>
+
+        <%# ── Status bar ── %>
+        <div class="win-statusbar">
+          <div class="win-status-panel"><%= yield(:status) || "Ready" %></div>
+          <div class="win-status-panel win-status-panel-fixed" style="min-width: 120px; text-align: center;">
+            <%= yield(:status_right) || "" %>
+          </div>
+          <div class="win-status-panel win-status-panel-fixed" style="min-width: 80px; text-align: center; color: #808080;">
+            Once Minji
+          </div>
+        </div>
+
+      </div><%# /win-window %>
+    </div><%# /desktop area %>
+
+    <%# ══════════════════════════════════════════
+        TASKBAR
+        ══════════════════════════════════════════ %>
+    <div class="win-taskbar">
+
+      <%# Start button + menu %>
+      <div style="position: relative;">
+        <button class="win-start-btn" id="start-btn" type="button" aria-haspopup="true" aria-expanded="false">
+          <span style="font-size: 14px; line-height: 1;">🪟</span>
+          Start
+        </button>
+
+        <div class="win-start-menu" id="start-menu" role="menu">
+          <div class="win-start-menu-sidebar">
+            <span>Once Minji</span>
+          </div>
+          <div class="win-start-menu-items">
+            <%= link_to haerins_path,    class: "win-start-menu-item", role: "menuitem" do %>
+              <span>📁</span> All Haerins
+            <% end %>
+            <%= link_to new_haerin_path, class: "win-start-menu-item", role: "menuitem" do %>
+              <span>✚</span> New Haerin
+            <% end %>
+            <hr class="win-sep" style="margin: 2px 4px;">
+            <span class="win-start-menu-item" style="color: #808080;">💡 Help</span>
+            <hr class="win-sep" style="margin: 2px 4px;">
+            <span class="win-start-menu-item" style="color: #808080;">⏻ Shut Down…</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="win-taskbar-sep"></div>
+
+      <%# Active window button %>
+      <button class="win-taskbar-item" type="button">
+        <span>🖥</span>
+        <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+          <%= yield(:title) || "Once Minji" %>
+        </span>
+      </button>
+
+      <%# System clock %>
+      <div class="win-sysclock" id="win-clock" aria-live="polite">00:00</div>
+
+    </div><%# /taskbar %>
+
+    <%# Clock + Start-menu JS %>
+    <script>
+      (function () {
+        // Clock
+        function tick () {
+          var d = new Date();
+          var h = String(d.getHours()).padStart(2, '0');
+          var m = String(d.getMinutes()).padStart(2, '0');
+          var el = document.getElementById('win-clock');
+          if (el) el.textContent = h + ':' + m;
+        }
+        tick();
+        setInterval(tick, 15000);
+
+        // Start menu toggle
+        var btn  = document.getElementById('start-btn');
+        var menu = document.getElementById('start-menu');
+        if (btn && menu) {
+          btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var open = menu.classList.toggle('open');
+            btn.setAttribute('aria-expanded', String(open));
+          });
+          document.addEventListener('click', function () {
+            menu.classList.remove('open');
+            btn.setAttribute('aria-expanded', 'false');
+          });
+        }
+      })();
+    </script>
+
   </body>
 </html>
+

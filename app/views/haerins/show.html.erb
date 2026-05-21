@@ -1,26 +1,106 @@
-<% content_for :title, "Showing Haerin" %>
+<% content_for :title,   "#{@haerin.title} — Properties" %>
+<% content_for :address, "C:\\Once Minji\\Haerins\\#{@haerin.title}" %>
+<% content_for :status,  "Viewing: #{@haerin.title}" %>
 
-<div class="max-w-2xl mx-auto space-y-6">
-  <% if notice.present? %>
-    <div role="alert" class="alert alert-success">
-      <span><%= notice %></span>
+<%# ── Properties dialog window ── %>
+<div style="max-width: 520px; margin: 0 auto;">
+
+  <%# ── Fake inner window (Properties dialog) ── %>
+  <div class="win-window" style="margin: 4px;">
+
+    <%# Inner title bar %>
+    <div class="win-titlebar">
+      <span style="font-size:14px;">📄</span>
+      <span class="win-titlebar-title"><%= @haerin.title %> Properties</span>
+      <span class="win-ctrl">_</span>
+      <span class="win-ctrl">□</span>
+      <%= link_to "✕", haerins_path, class: "win-ctrl", style: "font-weight:bold;" %>
     </div>
-  <% end %>
 
-  <div class="card bg-base-100 shadow-md">
-    <% if @haerin.image.attached? %>
-      <figure>
-        <%= image_tag @haerin.image, class: "w-full max-h-80 object-cover" %>
-      </figure>
-    <% end %>
-    <div class="card-body">
-      <h1 class="card-title text-2xl"><%= @haerin.title %></h1>
-      <p class="text-base-content/80 whitespace-pre-wrap"><%= @haerin.description %></p>
-      <div class="card-actions justify-start mt-4 flex-wrap gap-2">
-        <%= link_to "Edit", edit_haerin_path(@haerin), class: "btn btn-outline" %>
-        <%= link_to "Back to Haerins", haerins_path, class: "btn btn-ghost" %>
-        <%= button_to "Delete", @haerin, method: :delete, class: "btn btn-error", data: { turbo_confirm: "Are you sure?" } %>
+    <%# Tab strip (decorative) %>
+    <div style="display:flex; border-bottom: 2px solid #808080; padding: 0 4px; background: #c0c0c0; gap: 2px; margin-top: 2px;">
+      <div style="padding: 3px 12px; font-size:11px; font-weight:bold; background:#c0c0c0;
+                  box-shadow: inset 1px 1px 0 #fff, inset -1px 0 0 #808080;
+                  position:relative; top:2px; border-bottom: 2px solid #c0c0c0;">General</div>
+      <div style="padding: 3px 12px; font-size:11px; color:#808080; background:#b0b0b0;
+                  box-shadow: inset 1px 1px 0 #dfdfdf, inset -1px 0 0 #808080;">Details</div>
+    </div>
+
+    <%# Properties content %>
+    <div style="padding: 12px; background: #c0c0c0;">
+
+      <%# Icon + filename header %>
+      <div style="display:flex; align-items:center; gap: 12px; padding-bottom: 10px; border-bottom: 1px solid #808080; margin-bottom: 10px;">
+        <div style="font-size: 40px; line-height:1; image-rendering:pixelated;">
+          <% if @haerin.image.attached? %>🖼️<% else %>📄<% end %>
+        </div>
+        <div>
+          <div style="font-size: 14px; font-weight: bold; font-family: 'VT323', sans-serif; letter-spacing: 1px;">
+            <%= @haerin.title %>
+          </div>
+          <div style="font-size: 10px; color: #808080;">Haerin Document</div>
+        </div>
       </div>
+
+      <%# Property rows %>
+      <table style="width:100%; border-collapse:collapse; font-size:11px;">
+        <tr style="height:22px;">
+          <td style="width:110px; color:#000; padding:2px 4px; font-weight:bold;">Type:</td>
+          <td style="padding:2px 4px;">Haerin Document (.hae)</td>
+        </tr>
+        <tr style="height:22px;">
+          <td style="padding:2px 4px; font-weight:bold;">Location:</td>
+          <td style="padding:2px 4px; color:#444;">C:\Once Minji\Haerins</td>
+        </tr>
+        <% if @haerin.description.present? %>
+        <tr>
+          <td style="padding:2px 4px; font-weight:bold; vertical-align:top; padding-top:4px;">Description:</td>
+          <td style="padding:2px 4px;">
+            <div style="background:#fff; padding:4px; font-size:11px; line-height:1.5; white-space:pre-wrap;
+                        box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #fff; max-height:100px; overflow-y:auto;">
+              <%= @haerin.description %>
+            </div>
+          </td>
+        </tr>
+        <% end %>
+        <tr><td colspan="2"><hr class="win-sep"></td></tr>
+        <tr style="height:22px;">
+          <td style="padding:2px 4px; font-weight:bold;">Created:</td>
+          <td style="padding:2px 4px; color:#444;"><%= @haerin.created_at.strftime("%A, %B %d, %Y %I:%M %p") %></td>
+        </tr>
+        <tr style="height:22px;">
+          <td style="padding:2px 4px; font-weight:bold;">Modified:</td>
+          <td style="padding:2px 4px; color:#444;"><%= @haerin.updated_at.strftime("%A, %B %d, %Y %I:%M %p") %></td>
+        </tr>
+        <% if @haerin.image.attached? %>
+        <tr style="height:22px;">
+          <td style="padding:2px 4px; font-weight:bold;">Image:</td>
+          <td style="padding:2px 4px;"><span style="color:#008000;">✔ Attached</span></td>
+        </tr>
+        <% end %>
+      </table>
+
+      <%# Image preview %>
+      <% if @haerin.image.attached? %>
+        <div style="margin-top: 10px; border-top: 1px solid #808080; padding-top: 10px;">
+          <div style="font-size:11px; font-weight:bold; margin-bottom:4px;">Preview:</div>
+          <div style="box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #fff; display:inline-block;">
+            <%= image_tag @haerin.image, style: "max-width:100%; max-height:180px; object-fit:contain; display:block; image-rendering:auto;" %>
+          </div>
+        </div>
+      <% end %>
+
+    </div><%# /properties content %>
+
+    <%# Dialog buttons %>
+    <div style="display:flex; justify-content:flex-end; gap:4px; padding:6px 8px 8px; background:#c0c0c0; border-top:1px solid #808080;">
+      <%= link_to "Edit",               edit_haerin_path(@haerin), class: "win-btn" %>
+      <%= link_to "Back to Haerins",    haerins_path,              class: "win-btn" %>
+      <%= button_to "Delete", @haerin, method: :delete,
+            class: "win-btn win-btn-danger",
+            data: { turbo_confirm: "Permanently delete '#{@haerin.title}'?" } %>
     </div>
-  </div>
+
+  </div><%# /inner win-window %>
 </div>
+

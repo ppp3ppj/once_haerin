@@ -1,7 +1,13 @@
-<%= form_with(model: haerin, class: "space-y-4") do |form| %>
+<%= form_with(model: haerin) do |form| %>
+
+  <%# Validation errors %>
   <% if haerin.errors.any? %>
-    <div role="alert" class="alert alert-error">
-      <ul class="list-disc ml-4">
+    <div class="win-error-box" style="margin-bottom:10px;">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+        <span style="font-size:18px;">⚠️</span>
+        <strong style="font-size:11px;">The following errors prevented saving:</strong>
+      </div>
+      <ul style="margin-left:24px; font-size:11px;">
         <% haerin.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
@@ -9,26 +15,52 @@
     </div>
   <% end %>
 
-  <label class="form-control w-full">
-    <div class="label">
-      <%= form.label :title, class: "label-text font-medium" %>
-    </div>
-    <%= form.text_field :title, class: "input input-bordered w-full #{haerin.errors[:title].any? ? 'input-error' : ''}" %>
-  </label>
+  <%# Title field %>
+  <div class="win-field">
+    <%= form.label :title, class: "win-label" do %>
+      <span style="text-decoration: underline;">T</span>itle:
+    <% end %>
+    <%= form.text_field :title,
+          class: "win-input #{'win-input-error' if haerin.errors[:title].any?}",
+          style: "height: 21px;" %>
+    <% if haerin.errors[:title].any? %>
+      <div style="font-size:10px; color:#800000; margin-top:2px;">
+        <%= haerin.errors[:title].first %>
+      </div>
+    <% end %>
+  </div>
 
-  <label class="form-control w-full">
-    <div class="label">
-      <%= form.label :description, class: "label-text font-medium" %>
-    </div>
-    <%= form.textarea :description, rows: 4, class: "textarea textarea-bordered w-full #{haerin.errors[:description].any? ? 'textarea-error' : ''}" %>
-  </label>
+  <%# Description field %>
+  <div class="win-field">
+    <%= form.label :description, class: "win-label" do %>
+      <span style="text-decoration: underline;">D</span>escription:
+    <% end %>
+    <%= form.textarea :description, rows: 5,
+          class: "win-textarea #{'win-input-error' if haerin.errors[:description].any?}" %>
+    <% if haerin.errors[:description].any? %>
+      <div style="font-size:10px; color:#800000; margin-top:2px;">
+        <%= haerin.errors[:description].first %>
+      </div>
+    <% end %>
+  </div>
 
-  <label class="form-control w-full">
-    <div class="label">
-      <%= form.label :image, class: "label-text font-medium" %>
-    </div>
-    <%= form.file_field :image, class: "file-input file-input-bordered w-full" %>
-  </label>
+  <%# Image field %>
+  <div class="win-field">
+    <%= form.label :image, class: "win-label" do %>
+      <span style="text-decoration: underline;">I</span>mage file:
+    <% end %>
+    <%= form.file_field :image, class: "win-file-input",
+          accept: "image/*" %>
+    <% if haerin.image.attached? %>
+      <div style="font-size:10px; color:#008000; margin-top:2px;">✔ Image already attached</div>
+    <% end %>
+  </div>
 
-  <%= form.submit class: "btn btn-primary w-full sm:w-auto" %>
+  <hr class="win-sep">
+
+  <%# Submit row %>
+  <div style="display:flex; justify-content:flex-end; gap:4px;">
+    <%= form.submit class: "win-btn win-btn-primary" %>
+  </div>
+
 <% end %>

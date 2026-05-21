@@ -1,14 +1,26 @@
-<% content_for :title, "Editing Haerin" %>
+<% content_for :title,   "Edit — #{@haerin.title}" %>
+<% content_for :address, "C:\\Once Minji\\Haerins\\#{@haerin.title}\\Edit" %>
+<% content_for :status,  "Editing: #{@haerin.title}" %>
 
-<div class="max-w-2xl mx-auto">
-  <div class="card bg-base-100 shadow-md">
-    <div class="card-body">
-      <h1 class="card-title text-2xl mb-4">Editing Haerin</h1>
-      <%= render "form", haerin: @haerin %>
-      <div class="flex gap-2 mt-4">
-        <%= link_to "Show", @haerin, class: "btn btn-ghost btn-sm" %>
-        <%= link_to "Back to Haerins", haerins_path, class: "btn btn-ghost btn-sm" %>
-      </div>
+<div style="max-width: 520px; margin: 0 auto;">
+  <div class="win-window" style="margin: 4px;">
+
+    <div class="win-titlebar">
+      <span style="font-size:14px;">✏️</span>
+      <span class="win-titlebar-title">Edit — <%= @haerin.title %></span>
+      <span class="win-ctrl">_</span>
+      <span class="win-ctrl">□</span>
+      <%= link_to "✕", haerin_path(@haerin), class: "win-ctrl", style: "font-weight:bold;" %>
     </div>
+
+    <div style="padding: 12px 14px 8px; background: #c0c0c0;">
+      <%= render "form", haerin: @haerin %>
+    </div>
+
+    <div style="display:flex; justify-content:flex-start; gap:4px; padding:4px 8px 8px; background:#c0c0c0; border-top:1px solid #808080;">
+      <%= link_to "View Properties", @haerin,      class: "win-btn" %>
+      <%= link_to "Cancel",          haerins_path, class: "win-btn" %>
+    </div>
+
   </div>
 </div>
