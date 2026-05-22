@@ -672,3 +672,75 @@ body {
 .win-listview-row .win-row-actions { visibility: hidden; }
 .win-listview-row:hover .win-row-actions { visibility: visible; }
 
+/* ═══════════════════════════════════════════
+   WIN95 CONFIRM DIALOG
+   ═══════════════════════════════════════════ */
+
+.win-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  animation: win-overlay-in 80ms ease-out forwards;
+}
+
+.win-confirm-overlay.win-confirm-closing {
+  animation: win-overlay-out 80ms ease-in forwards;
+}
+
+@keyframes win-overlay-in  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes win-overlay-out { from { opacity: 1; } to { opacity: 0; } }
+
+.win-confirm-dialog {
+  background-color: var(--w-chrome);
+  width: 340px;
+  padding: 2px;
+  box-shadow:
+    inset  1px  1px 0 var(--w-hi-light),
+    inset  2px  2px 0 var(--w-mid-light),
+    inset -1px -1px 0 var(--w-mid-dark),
+    inset -2px -2px 0 var(--w-darkest),
+    4px 4px 0 rgba(0,0,0,.5);
+  outline: none;
+  animation: win-dialog-in 100ms ease-out forwards;
+}
+
+@keyframes win-dialog-in {
+  from { transform: scale(0.94); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+.win-confirm-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 16px 12px;
+}
+
+.win-confirm-icon {
+  font-size: 32px;
+  line-height: 1;
+  flex-shrink: 0;
+  image-rendering: pixelated;
+}
+
+.win-confirm-message {
+  font-size: 11px;
+  font-family: 'Tahoma', 'MS Sans Serif', Arial, sans-serif;
+  line-height: 1.5;
+  color: var(--w-darkest);
+  padding-top: 4px;
+}
+
+.win-confirm-footer {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 4px 12px 12px;
+  border-top: 1px solid var(--w-mid-dark);
+  margin-top: 4px;
+}
+
