@@ -744,3 +744,140 @@ body {
   margin-top: 4px;
 }
 
+/* ═══════════════════════════════════════════
+   VERSION BADGE  (taskbar system tray)
+   ═══════════════════════════════════════════ */
+
+.win-version-badge {
+  font-size: 10px;
+  font-family: 'Tahoma', 'MS Sans Serif', Arial, sans-serif;
+  color: var(--w-darkest);
+  background: var(--w-chrome);
+  padding: 1px 6px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid var(--w-darkest);
+  white-space: nowrap;
+  box-shadow:
+    inset  1px  1px 0 var(--w-hi-light),
+    inset  2px  2px 0 var(--w-mid-light),
+    inset -1px -1px 0 var(--w-mid-dark),
+    inset -2px -2px 0 #404040;
+}
+
+.win-version-badge:hover { filter: brightness(1.05); }
+
+.win-version-badge:active {
+  box-shadow:
+    inset  1px  1px 0 var(--w-mid-dark),
+    inset  2px  2px 0 #404040,
+    inset -1px -1px 0 var(--w-hi-light),
+    inset -2px -2px 0 var(--w-mid-light);
+}
+
+/* ═══════════════════════════════════════════
+   ABOUT DIALOG
+   ═══════════════════════════════════════════ */
+
+.win-about-dialog {
+  background-color: var(--w-chrome);
+  width: 380px;
+  padding: 2px;
+  outline: none;
+  box-shadow:
+    inset  1px  1px 0 var(--w-hi-light),
+    inset  2px  2px 0 var(--w-mid-light),
+    inset -1px -1px 0 var(--w-mid-dark),
+    inset -2px -2px 0 var(--w-darkest),
+    4px 4px 0 rgba(0,0,0,.5);
+  animation: win-dialog-in 100ms ease-out forwards;
+}
+
+.win-about-body {
+  padding: 14px 16px 10px;
+}
+
+/* Hero row — big app icon + name/version */
+.win-about-hero {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 12px;
+}
+
+.win-about-appicon {
+  font-size: 48px;
+  line-height: 1;
+  image-rendering: pixelated;
+  flex-shrink: 0;
+}
+
+.win-about-appname {
+  font-family: 'VT323', 'Tahoma', sans-serif;
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  line-height: 1.2;
+}
+
+.win-about-version {
+  font-size: 11px;
+  font-weight: bold;
+  margin-top: 2px;
+}
+
+.win-about-build {
+  font-size: 10px;
+  color: var(--w-mid-dark);
+  margin-top: 1px;
+}
+
+/* Divider */
+.win-about-rule {
+  border: 0;
+  border-top: 1px solid var(--w-mid-dark);
+  border-bottom: 1px solid var(--w-hi-light);
+  margin: 8px 0;
+}
+
+/* Legal text */
+.win-about-legal {
+  font-size: 11px;
+  color: var(--w-darkest);
+  line-height: 1.6;
+  padding: 2px 0;
+}
+
+/* System info table */
+.win-about-sysinfo {
+  background-color: var(--w-input-bg);
+  padding: 6px 8px;
+  font-size: 11px;
+  box-shadow:
+    inset  1px  1px 0 var(--w-mid-dark),
+    inset -1px -1px 0 var(--w-hi-light);
+}
+
+.win-about-sysrow {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 1px 0;
+  border-bottom: 1px dotted #d0d0d0;
+}
+
+.win-about-sysrow:last-child { border-bottom: none; }
+
+.win-about-sysrow span:first-child {
+  color: var(--w-mid-dark);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.win-about-sysrow span:last-child {
+  color: var(--w-darkest);
+  text-align: right;
+}
+

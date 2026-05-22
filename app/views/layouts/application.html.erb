@@ -8,6 +8,8 @@
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <meta name="app-version" content="<%= OnceMinji::VERSION %>">
+    <meta name="app-build"   content="<%= OnceMinji::BUILD %>">
 
     <%= yield :head %>
 
@@ -93,7 +95,7 @@
             <%= yield(:status_right) || "" %>
           </div>
           <div class="win-status-panel win-status-panel-fixed" style="min-width: 80px; text-align: center; color: #808080;">
-            Once Minji
+            Once Minji v<%= OnceMinji::VERSION %>
           </div>
         </div>
 
@@ -124,7 +126,10 @@
               <span>✚</span> New Haerin
             <% end %>
             <hr class="win-sep" style="margin: 2px 4px;">
-            <span class="win-start-menu-item" style="color: #808080;">💡 Help</span>
+            <button type="button" class="win-start-menu-item" id="start-about-btn"
+                    style="background:none; border:none; width:100%; text-align:left; cursor:default; font-family:inherit; font-size:11px;">
+              <span>💡</span> About Once Minji…
+            </button>
             <hr class="win-sep" style="margin: 2px 4px;">
             <span class="win-start-menu-item" style="color: #808080;">⏻ Shut Down…</span>
           </div>
@@ -139,6 +144,12 @@
         <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
           <%= yield(:title) || "Once Minji" %>
         </span>
+      </button>
+
+      <%# Version badge — click opens About dialog %>
+      <button type="button" class="win-version-badge" id="about-btn"
+              title="About Once Minji v<%= OnceMinji::VERSION %>">
+        v<%= OnceMinji::VERSION %>
       </button>
 
       <%# System clock %>
